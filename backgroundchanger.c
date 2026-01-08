@@ -2,10 +2,12 @@
 #include <conio.h>
 #include <stdio.h>
 
-int changeImage(char *image)
+// Changes the user's background to the specified image
+int changeImage(wchar_t *image)
 {
-    // Needs to be changed from static string
-    const wchar_t *file = L"<image>";
-    int ret = SystemParametersInfoW(SPI_SETDESKWALLPAPER, 0, (void *)file, SPIF_UPDATEINIFILE);
+    // Uses the image directory to find and set the image to the background
+    int ret = SystemParametersInfoW(SPI_SETDESKWALLPAPER, 0, (void *)image, SPIF_UPDATEINIFILE);
+
+    // Returns a number to represent success or failure of this process
     return ret;
 }
