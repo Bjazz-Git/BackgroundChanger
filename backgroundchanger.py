@@ -19,11 +19,9 @@ def access_c():
 
 
 # Changes the Desktop background to a specific image in the background folder
-# TODO: Make this less static
-def change_background():
+def change_background(image):
     background_changer = access_c()
-    pictures = valid_files()
-    background_changer.changeImage(pictures[0])
+    background_changer.changeImage(image)
 
 
 # Pulls up the users file explorer, allowing them to choose their backgrounds folder
@@ -33,6 +31,15 @@ def set_background_folder():
     folder = tkinter.filedialog.askdirectory()
     with open("background_folder_directory.txt", "w") as f:
         f.write(format_directory(str(folder)))
+
+
+# Formats the directory to prevent problems with c's window.h library
+def format_directory(directory):
+    formatted_directory = directory
+    # Replaces forward slashes with backslashes
+    formatted_directory = formatted_directory.replace("/", "\\")
+    return formatted_directory
+
 
 # Returns the backgrounds folder, if there is one
 def get_folder(): 
@@ -63,6 +70,7 @@ def files_in_folder():
     if directory is not None:
         return os.listdir(directory)
 
+
 # Returns a list of all files that are images
 def valid_files():
     files = files_in_folder()
@@ -80,6 +88,7 @@ def valid_files():
     # No valid images in folder
     else:
         return None
+
 
 # Checks if a file can be used as a background image
 def is_image(file):
@@ -102,9 +111,19 @@ def is_image(file):
         return False
 
 
-# Formats the directory to prevent problems with c's window.h library
-def format_directory(directory):
-    formatted_directory = directory
-    # Replaces forward slashes with backslashes
-    formatted_directory = formatted_directory.replace("/", "\\")
-    return formatted_directory
+# Gets all image names in the backgrounds folder
+def get_image_names():
+    # Gets all valid images
+    images = valid_files()
+    # Stores all image names
+    image_names = []
+
+    for image in images:
+        # Gets all the folder names that the image is stored in
+        image_directories = image.split("\\")
+        # Gets the image name
+        image_name = image_directories[len(image_directories) - 1]
+        image_names.append(image_name)
+    
+    return image_names
+        
