@@ -2,6 +2,7 @@ import ctypes
 import os
 import tkinter
 from tkinter import filedialog
+import appexceptions
 
 # Gets C functions and makes them compatible with Python
 # Converts Python arguments and return types to C types
@@ -19,9 +20,21 @@ def access_c():
 
 
 # Changes the Desktop background to a specific image in the background folder
-def change_background(image):
-    background_changer = access_c()
-    background_changer.changeImage(image)
+def change_background(background):
+    backgrounds = valid_files()
+
+    # Checks if the background specified is in the background folder
+    if background in backgrounds:
+        background_changer = access_c()
+        return_num = background_changer.changeImage(background)
+
+        # If the background change operation was unsuccessful, raise the exception
+        if return_num < 1:
+            raise appexceptions.InvalidImage
+
+    # If the background couldn't be located in the background folder directory, raise the exception
+    else:
+        raise appexceptions.MissingImage
 
 
 # Pulls up the users file explorer, allowing them to choose their backgrounds folder
@@ -84,10 +97,6 @@ def valid_files():
                 images.append(os.path.join(folder, file))
         
         return images
-    
-    # No valid images in folder
-    else:
-        return None
 
 
 # Checks if a file can be used as a background image

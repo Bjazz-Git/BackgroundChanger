@@ -1,22 +1,47 @@
 import backgroundchanger
+import random
+import appexceptions
 
 def main():
-    pick_background()
+    try:
+        # pick_background()
+        backgroundchanger.change_background("C:\\Users\\Braxt\\OneDrive\\Pictures\\Backgrounds\\crotas-end.jpg")
 
-# TODO: If the user adds an image to the folder after all images have been displayed to the user, 
-# choosing an image through numbers could cause the incorrect background to be set.
-# Prompts the user to pick a background from the background folder
+    # Handles what happens if an image that couldn't be found in the backgrounds folder
+    except (appexceptions.MissingImage) as e:
+        print(e)
+    
+    # Handles what happens if an image couldn't be set as a background
+    except (appexceptions.InvalidImage) as e:
+        print(e)
+    
+    # Handles what happens if an unexpected error occurs in the program
+    except Exception as e:
+        print(e)
+
+
+# Allows the user to pick their desktop's background
 def pick_background():
-    show_images()
     # Asks the user to pick a background from the backgrounds folder
     while True:
+        # Get the images in the folder
+        images = backgroundchanger.valid_files()
+        show_images()
+
+        # Ask the user to pick a background image
         try:
-            user_input = int(input("Type a number to pick your background: "))
-            images = backgroundchanger.valid_files()
-            backgroundchanger.change_background(images[user_input - 1])
-            break
-        except:
-            print("Invalid Choice")
+            # If there are images in the folder, let the user select a background
+            if len(images) > 0:
+                user_input = int(input("Type a number to pick your background: "))
+                backgroundchanger.change_background(images[user_input - 1])
+                break
+            else:
+                print("No Background Images")
+                break
+
+        # User chose invalid number/image
+        except Exception as e:
+            raise e
 
 
 # Displays the user's background images 
@@ -26,5 +51,11 @@ def show_images():
     for name in image_names:
         print(f"{img_num}: {name}")
         img_num += 1
+
+# Chooses a random background from the background folder
+def choose_random_background():
+    images = backgroundchanger.valid_files()
+    ran_image = random.choice(images)
+    backgroundchanger.change_background(ran_image)
 
 main()
