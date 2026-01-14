@@ -2,13 +2,17 @@
 #include <conio.h>
 #include <stdio.h>
 
-int changeBackground(wchar_t *image);
-wchar_t* getBackground();
+// int changeBackground(wchar_t *image);
+// char *getBackground();
+// void freeMemory(void* pointer);
 
-int main()
-{
-    wchar_t background = getBackground();
-}
+// int main()
+// {
+//     char *background = NULL;
+//     background = getBackground();
+//     printf("Directory is %s", background);
+//     freeMemory(background);
+// }
 
 // Changes the user's background to the specified image
 int changeBackground(wchar_t *image)
@@ -21,10 +25,20 @@ int changeBackground(wchar_t *image)
 }
 
 // Gets the user's current background
-wchar_t* getBackground()
+char *getBackground()
 {
-    wchar_t buffer[MAX_PATH];
-    int ret = SystemParametersInfoA(SPI_GETDESKWALLPAPER, MAX_PATH, buffer, 0);
-    printf("%i", ret);
-    return buffer;     
+    // Pointer to contain background
+    char *background = malloc(MAX_PATH * sizeof(char));
+
+    // Gets the desktop's background, returns a status code
+    int ret = SystemParametersInfoA(SPI_GETDESKWALLPAPER, MAX_PATH, background, 0);
+
+    return background;     
+}
+
+
+// Frees any memory allocated with malloc
+void freeMemory(void* pointer)
+{
+    free(pointer);
 }

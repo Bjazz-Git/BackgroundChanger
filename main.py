@@ -5,7 +5,8 @@ import appexceptions
 def main():
     try:
         # pick_background()
-        backgroundchanger.change_background("C:\\Users\\Braxt\\OneDrive\\Pictures\\Backgrounds\\crotas-end.jpg")
+        background = current_background()
+        print(background)
 
     # Handles what happens if an image that couldn't be found in the backgrounds folder
     except (appexceptions.MissingImage) as e:
@@ -25,7 +26,7 @@ def pick_background():
     # Asks the user to pick a background from the backgrounds folder
     while True:
         # Get the images in the folder
-        images = backgroundchanger.valid_files()
+        images = backgroundchanger.get_images()
         show_images()
 
         # Ask the user to pick a background image
@@ -57,5 +58,10 @@ def choose_random_background():
     images = backgroundchanger.valid_files()
     ran_image = random.choice(images)
     backgroundchanger.change_background(ran_image)
+
+# Gets the user's current background
+def current_background():
+    print("function called")
+    return backgroundchanger.get_background()
 
 main()
