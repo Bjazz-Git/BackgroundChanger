@@ -1,5 +1,5 @@
+import ctypes
 import os
-import tkinter
 import appexceptions
 import access_c
 from validate_files import valid_files
@@ -27,11 +27,8 @@ def change_background(background):
         raise appexceptions.MissingImage
 
 
-# Pulls up the users file explorer, allowing them to choose their backgrounds folder
-# Then sets the users background folder to the selected folder
-def set_background_folder():
-    # The background folder's directory
-    folder = tkinter.filedialog.askdirectory()
+# Takes a folder path and stores it into a text file, if the path leads to a real directory
+def set_background_folder(folder):
     if valid_folder(folder):
         with open("background_folder_directory.txt", "w") as f:
             f.write(format_directory(str(folder)))
@@ -84,16 +81,11 @@ def get_background():
     background_pointer = background_changer.getBackground()
 
     # Makes a copy of the background contents
-    background = copy.copy(background_pointer)
-    background = background.decode('utf-8')
-    # print(background)
-
-    # Frees the memory assigned to the pointer
-    free_memory(background_pointer)
-    # print(background)
+    # background = ctypes.c_char_p(background_pointer.value)
+    # background = background.decode('utf-8')
 
     # Returns the copy of the background
-    return background
+    return background_pointer
 
 # Frees the memory used by background
 def free_memory(background):
