@@ -29,20 +29,11 @@ except IndexError as e:
 options_dropdown = OptionMenu(entryWindow, selected_option, *options_text)
 options_dropdown.pack()
 
+# Takes the user's choice and activates the command that corresponds with that choice
 def submit():
     option = selected_option.get()
     options[option]()
-    # match options.get(option):
-    #     case 1:
-    #         set_background_folder()
-    #     case 2:
-    #         current_background()
-    #     case 3:
-    #         pick_background()
-    #     case 4:
-    #         choose_random_background()
 
-# input_field = tkinter.Entry(entryWindow, textvariable=user_input)
 submit_button = tkinter.Button(entryWindow, text = "Submit", command=submit)
 
 options_dropdown.grid(row=0, column=0)

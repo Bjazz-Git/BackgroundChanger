@@ -112,6 +112,9 @@ def current_background():
 def get_all_background_names():
     return backgroundchanger.get_image_names()
 
+def get_all_background_paths():
+    return backgroundchanger.get_images()
+
 
 # if __name__ == "__main__":
 #     main()
