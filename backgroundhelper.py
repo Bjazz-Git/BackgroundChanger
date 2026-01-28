@@ -62,29 +62,11 @@ def set_background_folder():
     folder = filedialog.askdirectory()
     backgroundchanger.set_background_folder(folder)
     root.destroy()
+    
 
 # Allows the user to pick their desktop's background
-def pick_background():
-    # Asks the user to pick a background from the backgrounds folder
-    while True:
-        # Get the images in the folder
-        images = backgroundchanger.get_images()
-        show_images()
-
-        # Ask the user to pick a background image
-        try:
-            # If there are images in the folder, let the user select a background
-            if len(images) > 0:
-                user_input = int(input("Type a number to pick your background: "))
-                backgroundchanger.change_background(images[user_input - 1])
-                break
-            else:
-                print("No Background Images")
-                break
-
-        # User chose invalid number/image
-        except Exception as e:
-            raise e
+def pick_background(background):
+    backgroundchanger.change_background(background)
 
 
 # Displays the user's background images 
