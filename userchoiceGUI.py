@@ -1,47 +1,40 @@
-import tkinter
-from tkinter import Tk
+import tkinter as tk
 from backgroundhelper import choose_random_background
 from backgroundhelper import set_background_folder
-from backgroundhelper import current_background
-from backgroundhelper import pick_background
 from tkinter import OptionMenu
+from ChooseImageGUI import ChooseImageGUI 
 
-# def get_user_input():
-# Print User options
-entryWindow = Tk()
-# user_input = tkinter.StringVar()
-options = {"Set Background Folder" : set_background_folder, 
-           "Get Background Folder": current_background, 
-           "Set Background": pick_background, 
-           "Set Random Background": choose_random_background}
+class UserChoiceGUI(tk.Frame):   
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        options = self.get_options()
+        options_text = list(options.keys())
 
-options_text = list(options.keys())
+        # Sets the default background to the first background in the directory
+        try:
+            selected_option = tk.StringVar()
+            selected_option.set(options_text[0])
 
-# Sets the default background to the first background in the directory
-try:
-    selected_option = tkinter.StringVar()
-    selected_option.set(options_text[0])
-
-except IndexError as e:
-    print(e)
+        except IndexError as e:
+            print(e)
 
 
-options_dropdown = OptionMenu(entryWindow, selected_option, *options_text)
-options_dropdown.pack()
+        options_dropdown = OptionMenu(self, selected_option, *options_text)
+        submit_button = tk.Button(self, text = "Submit", command=lambda option=selected_option: self.submit(option))
 
-# Takes the user's choice and activates the command that corresponds with that choice
-def submit():
-    option = selected_option.get()
-    options[option]()
+        options_dropdown.grid(row=0, column=0)
+        submit_button.grid(row=0, column=1)
 
-submit_button = tkinter.Button(entryWindow, text = "Submit", command=submit)
+    # Takes the user's choice and activates the command that corresponds with that choice
+    def submit(self, selected_option):
+        options = self.get_options()
+        option = selected_option.get()
+        options[option]()
 
-options_dropdown.grid(row=0, column=0)
-submit_button.grid(row=0, column=1)
-entryWindow.mainloop()
-
-
-
-
-
-    
+    def get_options(self):
+        options = {"Set Background Folder" : set_background_folder,
+                "Set Background": lambda: self.controller.show_frame(ChooseImageGUI.__name__), 
+                "Set Random Background": choose_random_background}
+        
+        return options
