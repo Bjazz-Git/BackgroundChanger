@@ -6,6 +6,7 @@ from ChooseImageGUI import ChooseImageGUI
 class GUIcontroller(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
+        self.geometry("800x600")
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
         container.grid_rowconfigure(0, weight=1)
