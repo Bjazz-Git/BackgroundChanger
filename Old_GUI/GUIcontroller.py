@@ -2,10 +2,11 @@ import tkinter as tk
 from tkinter import Tk
 from UserChoiceGUI import UserChoiceGUI
 from ChooseImageGUI import ChooseImageGUI
+from GUIS.Backgrounds import All_Backgrounds
 
 class GUIcontroller(tk.Tk):
     def __init__(self):
-        tk.Tk.__init__(self)
+        # self.title("Main Menu")
         self.geometry("800x600")
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
@@ -13,9 +14,16 @@ class GUIcontroller(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (UserChoiceGUI, ChooseImageGUI):
+        for F in (UserChoiceGUI, All_Backgrounds):
             page_name = F.__name__
-            frame = F(parent=container, controller=self)
+
+            if (page_name == "All_Backgrounds"):
+                frame = F(parent=container, controller=self, width=self.winfo_screenwidth(), height=self.winfo_screenheight())
+
+            else:
+                frame = F(parent=container, controller=self)
+            
+           
             self.frames[page_name] = frame
 
             # put all of the pages in the same location;
@@ -35,4 +43,3 @@ if __name__ == "__main__":
     app = GUIcontroller()
     app.title("")
     app.mainloop()
-
