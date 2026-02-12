@@ -2,10 +2,12 @@ import tkinter as tk
 from GUIS.Buttons import Buttons
 
 class LeftFrame(tk.Frame):
-    def __init__(self, parent, width, height):
+    def __init__(self, parent, controller, width, height):
         self.width = width
         self.height = height
-        super().__init__(parent, height=self.height/2, width=self.width/2, highlightthickness=10, highlightbackground="black")
+        self.parent = parent
+        self.controller = controller
+        super().__init__(self.parent, height=self.height/2, width=self.width/2, highlightthickness=10, highlightbackground="black")
         self.pack_propagate(False)
 
 

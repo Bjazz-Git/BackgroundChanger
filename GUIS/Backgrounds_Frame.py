@@ -6,7 +6,7 @@ class Backgrounds_frame(tk.Frame):
     def __init__(self, parent, controller):
         self.parent = parent
         self.controller = controller
-        super().__init__(parent, highlightbackground="black", highlightthickness=3, padx=0)
+        super().__init__(parent)
 
         # Gets the paths to all the user's backgrounds
         self.backgrounds_paths = backgroundhelper.get_all_background_paths()
@@ -40,3 +40,6 @@ class Backgrounds_frame(tk.Frame):
     # Sets the user's background using the provided background image
     def set_background(self, background_num):
         backgroundhelper.pick_background(self.backgrounds_paths[background_num])
+        main_frame = self.controller.controller
+        main_frame.refresh_screen(main_frame.right_bar)
+        

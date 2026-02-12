@@ -5,10 +5,10 @@ from GUIS.LeftSection import LeftFrame
 from GUIS.LeftSection import MainMenuLeft
 from GUIS.RightSection import MainMenuRight
 from GUIS.Backgrounds import All_Backgrounds
-### TODO: Current background image should change when you change the background
-### TODO: Directory should change when you change the directory
 ### TODO: Folders should show up and allow the selection of images
-### TODO: Improve formatting
+### TODO: Improve formatting of Screens
+### TODO: Make it so that long strings of text are cut off (using ...) instead of running off screen
+
 
 class MainMenuGUI:
     def __init__(self):
@@ -19,16 +19,16 @@ class MainMenuGUI:
         # centers the window in the middle of the screen
         self.center_window()
         # Sets window title
-        self.window.title("Main Menu")
+        self.window.title("Background Changer")
         # Prevents the window from being resized
         self.window.resizable(False, False)
 
         # # Top Frame
-        self.createDirectoryFrame()
+        self.top_bar = self.createDirectoryFrame()
 
         # Left Frame
         self.left_frames = {}
-        self.left_frame = LeftFrame(self.window, width=self.width, height=self.height)
+        self.left_frame = LeftFrame(self.window, controller=self, width=self.width, height=self.height)
         self.left_frame.pack(side="left", fill="both", expand=True)
         #Creates the left screens and adds them to a dictionary
         self.createButtonsFrame()
@@ -38,7 +38,7 @@ class MainMenuGUI:
         self.show_frame(MainMenuLeft.__name__)
         
         # Right Frame
-        self.createCurrentBackgroundFrame()
+        self.right_bar = self.createCurrentBackgroundFrame()
 
     # Places the applications window in the center of the screen
     def center_window(self):
@@ -49,8 +49,9 @@ class MainMenuGUI:
 
     # Creates the top frame that displays the user's current background directory
     def createDirectoryFrame(self):
-        self.top_bar = MainMenuTop(self.window)
-        self.top_bar.pack(side="top", fill="both")
+        top_bar = MainMenuTop(self.window)
+        top_bar.pack(side="top", fill="both")
+        return top_bar
 
 
     # Creates the screen/frame that displays buttons for the user to make choices with
@@ -69,8 +70,9 @@ class MainMenuGUI:
 
     # Creates the screen/frame that displays the user's current background
     def createCurrentBackgroundFrame(self):
-        self.right_bar = MainMenuRight(self.window, width=self.width, height=self.height)
-        self.right_bar.pack(side="right", fill="both")
+        right_bar = MainMenuRight(self.window, width=self.width, height=self.height)
+        right_bar.pack(side="right", fill="both")
+        return right_bar
 
     # Displays a hidden frame to the screen  
     def show_frame(self, page_name, previous_frame=""):
@@ -80,6 +82,31 @@ class MainMenuGUI:
         '''Show a frame for the given page name'''
         frame = self.left_frames[page_name]
         frame.pack(side="top", fill="both", expand="True")
+    
+    # Refreshes a given frame. This is done to ensure up to date information is shown
+    def refresh_screen(self, frame):
+        # Gets the name of the frame
+        frame_name = type(frame).__name__
+
+        # Change the directory name in the directory frame
+        if (frame_name == MainMenuTop.__name__):
+            print("Reached")
+            # Refreshes the directory name
+            self.top_bar.refresh_directory_name()
+
+        # Replaces current background frame with a new one
+        elif (frame_name == MainMenuRight.__name__):
+            # Destroys the current frame
+            frame.destroy()
+            # Creates a new current background frame
+            self.right_bar = self.createCurrentBackgroundFrame()
+        
+        # Replaces the backgrounds frame with a new one
+        elif (frame_name == All_Backgrounds.__name__):
+            # Destroys the current frame
+            frame.destroy()
+            # Creates a new backgrounds frame
+            self.createBackgroundsFrame()
 
     
 if __name__ == "__main__":

@@ -10,7 +10,7 @@ class Buttons(tk.Frame):
             option_buttons = []
             
             # Initialize Button Frame
-            super().__init__(parent, highlightbackground="red", highlightthickness=1)
+            super().__init__(parent)
 
             # Buttons
             # Create the option buttons and add them into the option_buttons array
@@ -25,13 +25,23 @@ class Buttons(tk.Frame):
                  
         
         def get_options(self):
-            options = {"Set Background Folder" : set_background_folder,
-                    "Set Background": self.choose_background, 
-                    "Set Random Background": choose_random_background}
+            options = {"Set Background Folder" :self.change_background_folder,
+                    "Set Background": self.change_background, 
+                    "Set Random Background": self.set_random_background}
             
             return options
 
         
         # Changes the frame to show a collection of scrollable images (all backgrounds name frame)
-        def choose_background(self):
+        def change_background(self):
             self.controller.show_frame("All_Backgrounds", "MainMenuLeft")
+        
+
+        def change_background_folder(self):
+            set_background_folder()
+            self.controller.refresh_screen(self.controller.top_bar)
+            self.controller.refresh_screen(self.controller.left_frames["All_Backgrounds"])
+
+        def set_random_background(self):
+            choose_random_background()
+            self.controller.refresh_screen(self.controller.right_bar)

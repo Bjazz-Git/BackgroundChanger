@@ -10,13 +10,13 @@ class All_Backgrounds(tk.Frame):
         self.controller = controller
         self.width = width/2
         self.height = height/2
-        super().__init__(self.parent, width=self.width, height=self.height, highlightthickness=1, highlightbackground="blue", pady=100)
+        super().__init__(self.parent, width=self.width, height=self.height, highlightthickness=1, highlightbackground="blue")
         self.pack_propagate(False)
 
         # Back Button Frame
-        self.back_frame = tk.Frame(self)
+        self.back_button_frame = tk.Frame(self)
         # Back Button
-        self.back_button = tk.Button(self.back_frame, text="Back", command= lambda: self.back())
+        self.back_button = tk.Button(self.back_button_frame, text="Back", command= lambda: self.back())
 
         # Scrollable Frame
         self.scrollable_frame = customtkinter.CTkScrollableFrame(
@@ -25,10 +25,10 @@ class All_Backgrounds(tk.Frame):
         )
 
         # Creates a frame that contains all user backgrounds
-        self.backgrounds_frame = Backgrounds_frame(self.scrollable_frame, self)
+        self.backgrounds_frame = Backgrounds_frame(self.scrollable_frame, controller=parent)
 
         # Position frames
-        self.back_frame.pack(side="top", fill="both")
+        self.back_button_frame.pack(side="top", fill="both")
         self.back_button.pack(side="left")
         self.scrollable_frame.pack(side="left", fill="both", expand=True)
         self.backgrounds_frame.pack(side="left", fill="both", expand=True)
