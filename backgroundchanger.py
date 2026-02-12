@@ -74,7 +74,7 @@ def get_image_names():
     
     return image_names
 
-# TODO: background isn't returning anything
+
 # Gets the user's current background
 def get_background():
     # Gets the pointer to the user's background
@@ -86,6 +86,7 @@ def get_background():
 
     # Returns the copy of the background
     return background_pointer
+
 
 # Frees the memory used by background
 def free_memory(background):
