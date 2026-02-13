@@ -5,6 +5,7 @@ from GUIS.LeftSection import LeftFrame
 from GUIS.LeftSection import MainMenuLeft
 from GUIS.RightSection import MainMenuRight
 from GUIS.Backgrounds import All_Backgrounds
+from backgroundhelper import Background_Helper
 ### TODO: Folders should show up and allow the selection of images
 ### TODO: Improve formatting of Screens
 ### TODO: Make it so that long strings of text are cut off (using ...) instead of running off screen
@@ -23,22 +24,24 @@ class MainMenuGUI:
         # Prevents the window from being resized
         self.window.resizable(False, False)
 
+        self.background_helper = Background_Helper()
+
         # # Top Frame
-        self.top_bar = self.createDirectoryFrame()
+        self.top_bar = self.createDirectoryFrame(self.background_helper)
 
         # Left Frame
         self.left_frames = {}
         self.left_frame = LeftFrame(self.window, controller=self, width=self.width, height=self.height)
         self.left_frame.pack(side="left", fill="both", expand=True)
         #Creates the left screens and adds them to a dictionary
-        self.createButtonsFrame()
-        self.createBackgroundsFrame()
+        self.createButtonsFrame(self.background_helper)
+        self.createBackgroundsFrame(self.background_helper)
 
         # Show the MainMenuLeft Frame
         self.show_frame(MainMenuLeft.__name__)
         
         # Right Frame
-        self.right_bar = self.createCurrentBackgroundFrame()
+        self.right_bar = self.createCurrentBackgroundFrame(self.background_helper)
 
     # Places the applications window in the center of the screen
     def center_window(self):
@@ -48,31 +51,32 @@ class MainMenuGUI:
 
 
     # Creates the top frame that displays the user's current background directory
-    def createDirectoryFrame(self):
-        top_bar = MainMenuTop(self.window)
+    def createDirectoryFrame(self, background_helper):
+        top_bar = MainMenuTop(self.window, helper = background_helper)
         top_bar.pack(side="top", fill="both")
         return top_bar
 
 
     # Creates the screen/frame that displays buttons for the user to make choices with
-    def createButtonsFrame(self):
+    def createButtonsFrame(self, background_helper):
         page_name = MainMenuLeft.__name__
-        frame = MainMenuLeft(self.left_frame, controller=self, width=self.width, height=self.height)
+        frame = MainMenuLeft(self.left_frame, controller=self, helper=background_helper, width=self.width, height=self.height)
         self.left_frames[page_name] = frame
 
     
     # Creates the screen/frame that displays clickable backgrounds for the user to select
-    def createBackgroundsFrame(self):
+    def createBackgroundsFrame(self, background_helper):
         page_name = All_Backgrounds.__name__
-        frame = All_Backgrounds(self.left_frame, controller=self, width=self.width, height=self.height)
+        frame = All_Backgrounds(self.left_frame, controller=self, helper = background_helper, width=self.width, height=self.height)
         self.left_frames[page_name] = frame
 
 
     # Creates the screen/frame that displays the user's current background
-    def createCurrentBackgroundFrame(self):
-        right_bar = MainMenuRight(self.window, width=self.width, height=self.height)
+    def createCurrentBackgroundFrame(self, background_helper):
+        right_bar = MainMenuRight(self.window, helper = background_helper, width=self.width, height=self.height)
         right_bar.pack(side="right", fill="both")
         return right_bar
+
 
     # Displays a hidden frame to the screen  
     def show_frame(self, page_name, previous_frame=""):
@@ -83,8 +87,9 @@ class MainMenuGUI:
         frame = self.left_frames[page_name]
         frame.pack(side="top", fill="both", expand="True")
     
+
     # Refreshes a given frame. This is done to ensure up to date information is shown
-    def refresh_screen(self, frame):
+    def refresh_screen(self, frame, helper=None):
         # Gets the name of the frame
         frame_name = type(frame).__name__
 
@@ -99,14 +104,14 @@ class MainMenuGUI:
             # Destroys the current frame
             frame.destroy()
             # Creates a new current background frame
-            self.right_bar = self.createCurrentBackgroundFrame()
+            self.right_bar = self.createCurrentBackgroundFrame(helper)
         
         # Replaces the backgrounds frame with a new one
         elif (frame_name == All_Backgrounds.__name__):
             # Destroys the current frame
             frame.destroy()
             # Creates a new backgrounds frame
-            self.createBackgroundsFrame()
+            self.createBackgroundsFrame(helper)
 
     
 if __name__ == "__main__":

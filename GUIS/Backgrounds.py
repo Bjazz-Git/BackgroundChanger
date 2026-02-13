@@ -1,13 +1,13 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 import customtkinter
-import backgroundhelper
 from GUIS.Backgrounds_Frame import Backgrounds_frame
 
 class All_Backgrounds(tk.Frame):
-    def __init__(self, parent, controller, width, height):
+    def __init__(self, parent, helper, controller, width, height):
         self.parent = parent
         self.controller = controller
+        self.helper = helper
         self.width = width/2
         self.height = height/2
         super().__init__(self.parent, width=self.width, height=self.height, highlightthickness=1, highlightbackground="blue")
@@ -25,7 +25,7 @@ class All_Backgrounds(tk.Frame):
         )
 
         # Creates a frame that contains all user backgrounds
-        self.backgrounds_frame = Backgrounds_frame(self.scrollable_frame, controller=parent)
+        self.backgrounds_frame = Backgrounds_frame(self.scrollable_frame, controller=parent, helper=helper)
 
         # Position frames
         self.back_button_frame.pack(side="top", fill="both")

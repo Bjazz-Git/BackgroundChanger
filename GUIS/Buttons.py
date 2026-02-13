@@ -1,10 +1,9 @@
 import tkinter as tk
-from backgroundhelper import choose_random_background
-from backgroundhelper import set_background_folder
 
 class Buttons(tk.Frame):
-        def __init__(self, parent, controller):
+        def __init__(self, parent, controller, helper):
             self.controller = controller
+            self.helper = helper
             options = self.get_options()
             options_text = list(options.keys())
             option_buttons = []
@@ -38,10 +37,10 @@ class Buttons(tk.Frame):
         
 
         def change_background_folder(self):
-            set_background_folder()
+            self.helper.set_background_folder()
             self.controller.refresh_screen(self.controller.top_bar)
-            self.controller.refresh_screen(self.controller.left_frames["All_Backgrounds"])
+            self.controller.refresh_screen(self.controller.left_frames["All_Backgrounds"], helper=self.helper)
 
         def set_random_background(self):
-            choose_random_background()
-            self.controller.refresh_screen(self.controller.right_bar)
+            self.helper.choose_random_background()
+            self.controller.refresh_screen(self.controller.right_bar, helper=self.helper)

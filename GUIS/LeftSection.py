@@ -12,13 +12,14 @@ class LeftFrame(tk.Frame):
 
 
 class MainMenuLeft(tk.Frame):
-    def __init__(self, parent, controller, height, width):
+    def __init__(self, parent, controller, helper, height, width):
         self.parent = parent
         self.controller = controller
+        self.helper = helper
         self.height = height
         self.width = width
 
         super().__init__(self.parent, height=self.height/2, width=self.width/2)
 
-        button1_frame = Buttons(self, self.controller)
-        button1_frame.pack(side="top", fill="both", expand=True)
+        buttons_frame = Buttons(self, self.controller, self.helper)
+        buttons_frame.pack(side="top", fill="both", expand=True)

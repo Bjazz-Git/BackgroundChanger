@@ -1,11 +1,11 @@
 import tkinter as tk
 from tkinter import PhotoImage
 from PIL import ImageTk, Image
-from backgroundhelper import current_background
-from backgroundhelper import get_image_name
+
 
 class MainMenuRight(tk.Frame):
-    def __init__(self, parent, width, height):
+    def __init__(self, parent, helper, width, height):
+        self.helper = helper
         self.width = width
         self.height = height
         border_color = "black"
@@ -16,9 +16,9 @@ class MainMenuRight(tk.Frame):
         image_frame = tk.Frame(self, highlightbackground=border_color, highlightthickness=10)
         
         # Current Background
-        current_bg = current_background()
+        current_bg = self.helper.current_background()
         # Current Background Name
-        current_bg_text = get_image_name(current_bg)
+        current_bg_text = self.helper.get_image_name(current_bg)
 
         # Background name Label
         self.background_name_label = tk.Label(image_frame, text=f"Current Background is: {current_bg_text}", anchor="w", justify="left")
