@@ -38,7 +38,7 @@ class Buttons(tk.Frame):
 
         def change_background_folder(self):
             self.helper.set_background_folder()
-            self.controller.refresh_screen(self.controller.top_bar)
+            self.controller.refresh_screen(self.controller.top_bar, helper=self.helper)
             self.controller.refresh_screen(self.controller.left_frames["All_Backgrounds"], helper=self.helper)
 
         def set_random_background(self):

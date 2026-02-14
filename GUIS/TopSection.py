@@ -18,5 +18,7 @@ class MainMenuTop(tk.Frame):
         self.directory_label.grid(row=0, column=0)
         self.directory_location_label.grid(row=0, column=1)
 
-    def refresh_directory_name(self):
-        self.directory_location_label.configure(text=self.helper.get_background_folder())
+
+    # Changes the directory's name to the one contained by the helper object
+    def refresh_directory_name(self, helper):
+        self.directory_location_label.configure(text=helper.get_background_folder())

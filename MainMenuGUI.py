@@ -6,9 +6,10 @@ from GUIS.LeftSection import MainMenuLeft
 from GUIS.RightSection import MainMenuRight
 from GUIS.Backgrounds import All_Backgrounds
 from backgroundhelper import Background_Helper
-### TODO: Folders should show up and allow the selection of images
+### TODO: Images in folders should be part of the random image pool
 ### TODO: Improve formatting of Screens
 ### TODO: Make it so that long strings of text are cut off (using ...) instead of running off screen
+
 
 
 class MainMenuGUI:
@@ -89,15 +90,14 @@ class MainMenuGUI:
     
 
     # Refreshes a given frame. This is done to ensure up to date information is shown
-    def refresh_screen(self, frame, helper=None):
+    def refresh_screen(self, frame, helper):
         # Gets the name of the frame
         frame_name = type(frame).__name__
 
         # Change the directory name in the directory frame
         if (frame_name == MainMenuTop.__name__):
-            print("Reached")
             # Refreshes the directory name
-            self.top_bar.refresh_directory_name()
+            self.top_bar.refresh_directory_name(helper)
 
         # Replaces current background frame with a new one
         elif (frame_name == MainMenuRight.__name__):

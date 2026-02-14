@@ -11,21 +11,15 @@ class Background_Changer():
     def __init__(self, directory):
         # Provides a way to call the functions in accessbackground.c
         self.background_changer = access_c.get_functions()
+        self.directory = directory
 
     # Changes the Desktop background to a specific image in the background folder
     def change_background(self, background):
-        backgrounds = self.get_images()
-        # Checks if the background specified is in the background folder
-        if background in backgrounds:
-            return_num = self.background_changer.changeBackground(background)
+        return_num = self.background_changer.changeBackground(background)
 
-            # If the background change operation was unsuccessful, raise the exception
-            if return_num < 1:
-                raise appexceptions.InvalidImage
-
-        # If the background couldn't be located in the background folder directory, raise the exception
-        else:
-            raise appexceptions.MissingImage
+        # If the background change operation was unsuccessful, raise the exception
+        if return_num < 1:
+            raise appexceptions.InvalidImage
 
 
     # Takes a folder path and stores it into a text file, if the path leads to a real directory
@@ -45,8 +39,14 @@ class Background_Changer():
 
     # Returns the backgrounds folder, if there is one
     def get_folder(self): 
-        with open("background_folder_directory.txt", "r") as f:
-                return f.read()
+        # If no directory was provided use the default directory
+        if self.directory == "":
+            with open("background_folder_directory.txt", "r") as f:
+                    return f.read()
+            
+        # If a directory was provided then use that one isntead of the base directory
+        else:
+            return self.directory
 
 
     # Returns a list of files in the background folder, if there are any
