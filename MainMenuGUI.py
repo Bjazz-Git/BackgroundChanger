@@ -7,6 +7,8 @@ from GUIS.RightSection import MainMenuRight
 from GUIS.Backgrounds import All_Backgrounds
 from backgroundhelper import Background_Helper
 ### TODO: Images in folders should be part of the random image pool
+### TODO: Labels should be next to each image/folder displaying the name of the image/folder
+### TODO: Create a refresh Button, to improve performance
 ### TODO: Improve formatting of Screens
 ### TODO: Make it so that long strings of text are cut off (using ...) instead of running off screen
 

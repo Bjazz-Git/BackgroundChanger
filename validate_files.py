@@ -15,11 +15,14 @@ def valid_folder(folder):
     except:
         return False
 
-# Returns a list of all files that are images and folders
+
+# Returns a list of all files that are images and folders within the current directory
 def valid_files(folder, files):
     directory_files = {}
     directory_files["images"] = []
     directory_files["folders"] = []
+
+    print("new call")
 
     # If the folder contains files
     if files:

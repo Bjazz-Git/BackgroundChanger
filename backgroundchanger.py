@@ -59,19 +59,23 @@ class Background_Changer():
             return os.listdir(directory)
 
 
-    # Gets all of the valid files from the background directory (images and folders)
-    def get_valid_files(self):
-        return valid_files(self.get_folder(), self.files_in_folder())
+    # Gets all of the valid files from a directory (images and folders)
+    def get_valid_files(self, directory=""):
+        # If no directory was provided use the base background directory
+        if directory == "":
+            directory = self.get_folder()
+
+        return valid_files(directory, self.files_in_folder(directory))
 
 
     # Gets the images in the background folder directory
-    def get_images(self):
-        return self.get_valid_files()["images"]
+    def get_images(self, directory=""):
+        return self.get_valid_files(directory)["images"]
 
 
     # Gets the folders in the background folder directory
-    def get_folders(self):
-        return self.get_valid_files()["folders"]
+    def get_folders(self, directory=""):
+        return self.get_valid_files(directory)["folders"]
 
     # Gets all image names in the backgrounds folder
     def get_image_names(self):

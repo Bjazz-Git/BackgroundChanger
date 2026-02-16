@@ -18,7 +18,7 @@ class Backgrounds_frame(tk.Frame):
         # Gets the paths to all folders within the backgrounds directory
         self.folder_paths = self.helper.get_folders()
         # Gets the paths to all the user's backgrounds
-        self.backgrounds_paths = self.helper.get_all_background_paths()
+        self.backgrounds_paths = self.helper.get_background_paths()
 
         # Stores all folder frames
         self.folder_frames = []

@@ -9,7 +9,7 @@ class ChooseImageGUI(tk.Frame):
         self.controller = controller
 
         # Gets the paths to all the user's backgrounds
-        self.backgrounds = backgroundhelper.get_all_background_paths()
+        self.backgrounds = backgroundhelper.get_background_paths()
 
         # Used to store background image objects
         self.background_objects = []
