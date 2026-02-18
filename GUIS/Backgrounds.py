@@ -10,7 +10,8 @@ class All_Backgrounds(tk.Frame):
         self.helper = helper
         self.width = width/2
         self.height = height/2
-        super().__init__(self.parent, width=self.width, height=self.height, highlightthickness=1, highlightbackground="blue")
+
+        super().__init__(self.parent, width=self.width, height=self.height)
         self.pack_propagate(False)
 
         # Back Button Frame
@@ -21,7 +22,7 @@ class All_Backgrounds(tk.Frame):
         # Scrollable Frame
         self.scrollable_frame = customtkinter.CTkScrollableFrame(
             self, orientation="vertical", label_text="Select a background",
-            border_color="red", fg_color="transparent"
+            border_color="red", fg_color="transparent", corner_radius=0
         )
 
         # Creates a frame that contains all user backgrounds
@@ -33,8 +34,7 @@ class All_Backgrounds(tk.Frame):
         self.back_button_frame.pack(side="top", fill="both")
         self.back_button.pack(side="left")
         self.scrollable_frame.pack(side="left", fill="both", expand=True)
-        # Displays the backgrounds_frame to the screen
-        self.open_folder(self.backgrounds_frame)
+        self.backgrounds_frame.pack(side="left", fill="both", expand=True)
 
     
     # Goes back to the previous screen

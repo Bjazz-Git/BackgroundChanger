@@ -6,11 +6,14 @@ from GUIS.LeftSection import MainMenuLeft
 from GUIS.RightSection import MainMenuRight
 from GUIS.Backgrounds import All_Backgrounds
 from backgroundhelper import Background_Helper
-### TODO: Images in folders should be part of the random image pool
-### TODO: Labels should be next to each image/folder displaying the name of the image/folder
-### TODO: Create a refresh Button, to improve performance
+
+### TODO: Make it so that an image can't be choosen randomly back to back
 ### TODO: Improve formatting of Screens
-### TODO: Make it so that long strings of text are cut off (using ...) instead of running off screen
+### TODO: Create a refresh Button, to improve performance (prevent get_valid_files from being called over and over again)
+### The location of files should be stored on file and this refresh button should be in the tool bar
+### TODO: Add a feature that makes it so random images are choosen automatically at certain times, days, weeks, months
+### TODO: Add the ability for users to ignore backgrounds (backgrounds that won't show up in the selection and random pool)
+
 
 
 
@@ -55,7 +58,7 @@ class MainMenuGUI:
 
     # Creates the top frame that displays the user's current background directory
     def createDirectoryFrame(self, background_helper):
-        top_bar = MainMenuTop(self.window, helper = background_helper)
+        top_bar = MainMenuTop(self.window, controller=self, helper = background_helper)
         top_bar.pack(side="top", fill="both")
         return top_bar
 
