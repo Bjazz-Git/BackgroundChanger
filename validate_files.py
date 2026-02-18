@@ -15,17 +15,30 @@ def valid_folder(folder):
     except:
         return False
 
-# Returns a list of all files that are images
+
+# Returns a list of all files that are images and folders within the current directory
 def valid_files(folder, files):
-    images = []
+    directory_files = {}
+    directory_files["images"] = []
+    directory_files["folders"] = []
 
     # If the folder contains files
     if files:
         for file in files:
+            # Gets the full path to the image
+            file_directory = os.path.join(folder, file)
+
+            # If file is an image, add it to the images dictionary
             if is_image(file):
-                images.append(os.path.join(folder, file))
+                directory_files["images"].append(file_directory)
+
+            # If the file is a folder, add it to the folders directory
+            elif is_folder(file_directory):
+                print(file)
+                directory_files["folders"].append(file_directory)
         
-        return images
+        # Returns all valid files (images and folders)
+        return directory_files
 
 
 # Checks if a file can be used as a background image
@@ -47,3 +60,8 @@ def is_image(file):
     # File doesn't have extension type    
     except:
         return False
+    
+
+# Checks if a file is a folder
+def is_folder(file):
+    return os.path.isdir(file)

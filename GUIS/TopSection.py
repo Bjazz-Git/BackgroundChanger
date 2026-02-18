@@ -1,22 +1,30 @@
 import tkinter as tk
-import backgroundhelper
 
 class MainMenuTop(tk.Frame):
-    def __init__(self, parent):
+    def __init__(self, parent, controller, helper):
         super().__init__(parent, highlightbackground="black", highlightthickness=10)
         self.parent = parent
+        self.helper = helper
+        self.controller = controller
 
         # Frame centered in top bar
-        self.top_bar_frame2 = tk.Frame(self)
+        self.top_bar_frame2 = tk.Frame(self, highlightbackground="blue", highlightthickness=5)
         self.top_bar_frame2.pack(side="top")
 
         # Labels
         self.directory_label = tk.Label(self.top_bar_frame2,  text="Backgrounds Directory:")
-        self.directory_location_label = tk.Label(self.top_bar_frame2,  text=f"{backgroundhelper.get_background_folder()}")
+        self.directory_location_label = tk.Label(self.top_bar_frame2,  text="")
+        # The total length the directory_location_label can take up (Accounts for the directory_label and adds padding of 10)
+        self.label_length = controller.width - (self.directory_label.winfo_reqwidth() + 10)
+        self.refresh_directory_name(self.helper)
         
         # Position labels 
         self.directory_label.grid(row=0, column=0)
         self.directory_location_label.grid(row=0, column=1)
 
-    def refresh_directory_name(self):
-        self.directory_location_label.configure(text=backgroundhelper.get_background_folder())
+
+    # Changes the directory's name to the one contained by the helper object
+    def refresh_directory_name(self, helper):
+        # Formats the directory text to prevent it from running of the screen
+        directory_text = helper.format_directory_text(label_text=helper.get_background_folder(), label_width=self.label_length)
+        self.directory_location_label.configure(text=directory_text)

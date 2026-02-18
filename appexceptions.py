@@ -7,9 +7,9 @@ class AppException(Exception):
 
 
 class MissingImage(AppException):
-    def __init__(self):
+    def __init__(self, directory):
         message = "Missing Image"
-        error = f"Image could not be located in directory {backgroundchanger.get_folder()}"
+        error = f"Image could not be located in directory {directory}"
         super().__init__(message, error)
 
 
