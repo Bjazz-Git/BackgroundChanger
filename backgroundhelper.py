@@ -34,13 +34,23 @@ class Background_Helper():
     # Chooses a random background from the background folder
     def choose_random_background(self):
         images = self.get_all_images()
-        ran_image = random.choice(images)
+        current_background = self.current_background()
+
+        # Ensures that the random background isn't the same as the one already set
+        while True:
+            ran_image = random.choice(images)
+            if ran_image != current_background:
+                break
+        
+        # Changes the user's background to the one randomly selected
         self.background_changer.change_background(ran_image)
 
 
-    # Gets the user's current background, and returns it as bytes
+    # Gets the user's current background
     def current_background(self):
-        background = self.background_changer.get_background()
+
+        # Gets the current background as a string
+        background = self.background_changer.get_background().decode("utf-8")
 
         return background
 
@@ -99,15 +109,10 @@ class Background_Helper():
         char_pixels = self.font.measure(" ")
         # Gets max amount of characters allowed in a label
         max_characters = int((label_width / char_pixels) / char_pixels)
-        # print(label_text)
-        # print(char_pixels)
-        # print(max_characters)
 
         # If the string exceeds the max length, shorten the string by using ...
         if len(label_text) > max_characters:
-            print("Entered")
             label_text = label_text[: (max_characters - 3)] + "..."
-            # print(label_text)
 
         return label_text
 

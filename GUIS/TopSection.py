@@ -8,7 +8,7 @@ class MainMenuTop(tk.Frame):
         self.controller = controller
 
         # Frame centered in top bar
-        self.top_bar_frame2 = tk.Frame(self, highlightbackground="blue", highlightthickness=5)
+        self.top_bar_frame2 = tk.Frame(self)
         self.top_bar_frame2.pack(side="top")
 
         # Labels
