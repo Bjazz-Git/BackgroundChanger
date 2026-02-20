@@ -1,5 +1,4 @@
-import tkinter as tk
-from tkinter import ttk
+import ttkbootstrap as ttkb
 from GUIS.TopSection import MainMenuTop
 from GUIS.LeftSection import LeftFrame
 from GUIS.LeftSection import MainMenuLeft
@@ -17,7 +16,9 @@ from backgroundhelper import Background_Helper
 
 class MainMenuGUI:
     def __init__(self):
-        self.window = tk.Tk()
+        self.window = ttkb.Tk()
+        # Sets the window's theme/style
+        self.style = ttkb.Style("darkly")
         # Sets the main window's width and height
         self.width = int(self.window.winfo_screenwidth() /1.5)
         self.height = int(self.window.winfo_screenheight() / 1.5)
