@@ -1,5 +1,4 @@
-import tkinter as tk
-from tkinter import ttk
+import ttkbootstrap as ttkb
 from GUIS.TopSection import MainMenuTop
 from GUIS.LeftSection import LeftFrame
 from GUIS.LeftSection import MainMenuLeft
@@ -7,7 +6,7 @@ from GUIS.RightSection import MainMenuRight
 from GUIS.Backgrounds import All_Backgrounds
 from backgroundhelper import Background_Helper
 
-### TODO: Make it so that an image can't be choosen randomly back to back
+
 ### TODO: Improve formatting of Screens
 ### TODO: Create a refresh Button, to improve performance (prevent get_valid_files from being called over and over again)
 ### The location of files should be stored on file and this refresh button should be in the tool bar
@@ -15,11 +14,11 @@ from backgroundhelper import Background_Helper
 ### TODO: Add the ability for users to ignore backgrounds (backgrounds that won't show up in the selection and random pool)
 
 
-
-
 class MainMenuGUI:
     def __init__(self):
-        self.window = tk.Tk()
+        self.window = ttkb.Tk()
+        # Sets the window's theme/style
+        self.style = ttkb.Style("darkly")
         # Sets the main window's width and height
         self.width = int(self.window.winfo_screenwidth() /1.5)
         self.height = int(self.window.winfo_screenheight() / 1.5)

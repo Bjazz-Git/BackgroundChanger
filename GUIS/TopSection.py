@@ -1,19 +1,19 @@
-import tkinter as tk
+import ttkbootstrap as ttkb
 
-class MainMenuTop(tk.Frame):
+class MainMenuTop(ttkb.Frame):
     def __init__(self, parent, controller, helper):
-        super().__init__(parent, highlightbackground="black", highlightthickness=10)
+        super().__init__(parent, borderwidth=2, relief="groove")
         self.parent = parent
         self.helper = helper
         self.controller = controller
 
         # Frame centered in top bar
-        self.top_bar_frame2 = tk.Frame(self, highlightbackground="blue", highlightthickness=5)
+        self.top_bar_frame2 = ttkb.Frame(self)
         self.top_bar_frame2.pack(side="top")
 
         # Labels
-        self.directory_label = tk.Label(self.top_bar_frame2,  text="Backgrounds Directory:")
-        self.directory_location_label = tk.Label(self.top_bar_frame2,  text="")
+        self.directory_label = ttkb.Label(self.top_bar_frame2,  text="Backgrounds Directory:")
+        self.directory_location_label = ttkb.Label(self.top_bar_frame2,  text="")
         # The total length the directory_location_label can take up (Accounts for the directory_label and adds padding of 10)
         self.label_length = controller.width - (self.directory_label.winfo_reqwidth() + 10)
         self.refresh_directory_name(self.helper)

@@ -1,9 +1,10 @@
-import tkinter as tk
+import ttkbootstrap as ttkb
+
 from PIL import Image, ImageTk
 import customtkinter
 from GUIS.Backgrounds_Frame import Backgrounds_frame
 
-class All_Backgrounds(tk.Frame):
+class All_Backgrounds(ttkb.Frame):
     def __init__(self, parent, helper, controller, width, height):
         self.parent = parent
         self.controller = controller
@@ -11,18 +12,24 @@ class All_Backgrounds(tk.Frame):
         self.width = width/2
         self.height = height/2
 
+        # The default theme color of objects
+        default_color = self.controller.style.colors.primary
+
         super().__init__(self.parent, width=self.width, height=self.height)
         self.pack_propagate(False)
 
         # Back Button Frame
-        self.back_button_frame = tk.Frame(self)
+        self.back_button_frame = ttkb.Frame(self)
         # Back Button
-        self.back_button = tk.Button(self.back_button_frame, text="Back", command= lambda: self.back())
+        self.back_button = ttkb.Button(self.back_button_frame, text="Back", command= lambda: self.back())
 
         # Scrollable Frame
         self.scrollable_frame = customtkinter.CTkScrollableFrame(
             self, orientation="vertical", label_text="Select a background",
-            border_color="red", fg_color="transparent", corner_radius=0
+            corner_radius=0,
+            fg_color="transparent", 
+            label_fg_color=default_color, label_text_color="white",
+            scrollbar_fg_color=default_color
         )
 
         # Creates a frame that contains all user backgrounds
@@ -31,10 +38,10 @@ class All_Backgrounds(tk.Frame):
         self.current_location = self.backgrounds_frame 
 
         # Position frames
-        self.back_button_frame.pack(side="top", fill="both")
+        self.back_button_frame.pack(side="top", fill="both", pady=5)
         self.back_button.pack(side="left")
-        self.scrollable_frame.pack(side="left", fill="both", expand=True)
-        self.backgrounds_frame.pack(side="left", fill="both", expand=True)
+        self.scrollable_frame.pack(side="top", fill="both", expand=True, padx=0)
+        self.backgrounds_frame.pack(side="top", fill="both", expand=True, padx=0)
 
     
     # Goes back to the previous screen
