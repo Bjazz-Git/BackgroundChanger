@@ -6,9 +6,7 @@ from GUIS.RightSection import MainMenuRight
 from GUIS.Backgrounds import All_Backgrounds
 from backgroundhelper import Background_Helper
 
-
-### TODO: Improve formatting of Screens
-### TODO: Create a refresh Button, to improve performance (prevent get_valid_files from being called over and over again)
+### TODO:Improve the refresh Button, to improve performance (prevent get_valid_files from being called over and over again)
 ### The location of files should be stored on file and this refresh button should be in the tool bar
 ### TODO: Add a feature that makes it so random images are choosen automatically at certain times, days, weeks, months
 ### TODO: Add the ability for users to ignore backgrounds (backgrounds that won't show up in the selection and random pool)
@@ -31,7 +29,7 @@ class MainMenuGUI:
 
         self.background_helper = Background_Helper()
 
-        # # Top Frame
+        # Top Frame
         self.top_bar = self.createDirectoryFrame(self.background_helper)
 
         # Left Frame

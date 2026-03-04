@@ -54,7 +54,7 @@ class Backgrounds_frame(ttkb.Frame):
             selection_frame = ttkb.Frame(self)
 
             # Gets a string that is used to display the folder's name
-            label = self.get_label(file=self.backgrounds_paths[i])
+            label = self.get_label(file=self.folder_paths[i])
 
             # Creates a folder button that when clicked will display the images in the folder
             folder_button = ttkb.Button(selection_frame, image = self.folder_img, text=label,
