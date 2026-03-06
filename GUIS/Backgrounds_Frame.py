@@ -141,13 +141,22 @@ class Backgrounds_frame(ttkb.Frame):
         # Go through all of the folders and backgrounds in the frame 
         for i in range(len(background_frames)):
             # Idx used to get the current background frame
-            background_idx = i - len(new_folder_paths)
+            background_idx = abs(i - len(new_folder_paths))
 
             # Check if there are any new folders to add to the frame
             if i < len(new_folder_paths):
                 # If there are more new folders than old folders, replace the current background with the new folder
+                if (i >= len(self.folder_paths)):
+                    # Destroys the previous folder button
+                    background_frames[i].destroy()
+                    # Creates a new folder button and stores it in an array
+                    self.buttons[i] = self.create_folder_button(new_folder_paths[i])
+                    # Places the folder button onto the screen
+                    self.place_file_button(i)
+
+                ## TODO: Remove this redundancy
                 # If the new folder is not equal to the folder on the frame, replace the previous folder with the new one
-                if (i > len(self.folder_paths) or new_folder_paths[i] != self.folder_paths[i]):
+                elif (new_folder_paths[i] != self.folder_paths[i]):
                     # Destroys the previous folder button
                     background_frames[i].destroy()
                     # Creates a new folder button and stores it in an array
@@ -157,21 +166,51 @@ class Backgrounds_frame(ttkb.Frame):
 
             # Check if there are any new backgrounds to add to the frame
             elif background_idx < len(new_backgrounds_paths):
-                # If the new background is not equal to the background on the frame, replace the current background with the new one
-                if (new_backgrounds_paths[background_idx] != self.backgrounds_paths[background_idx]):
+                # If there are old folders that still have not be replaced, replace them with the current background
+                if i < len(self.folder_paths):
                     # Destroys the previous background button
                     background_frames[i].destroy()
                     # Creates a new background button and stores it in an array
-                    self.buttons[i] = self.create_background_button(new_folder_paths[i])
+                    self.buttons[i] = self.create_background_button(new_backgrounds_paths[background_idx])
+                    # Places the folder button onto the screen
+                    self.place_file_button(i)
+
+                ## TODO: Remove this redundancy
+                # If the new background is not equal to the background on the frame, replace the current background with the new one
+                elif (new_backgrounds_paths[background_idx] != self.backgrounds_paths[background_idx]):
+                    #print(f"Index: {i} and the bg_idx: {background_idx} and the length of backgrounds {len(new_backgrounds_paths)}")
+                    # Destroys the previous background button
+                    background_frames[i].destroy()
+                    # Creates a new background button and stores it in an array
+                    self.buttons[i] = self.create_background_button(new_backgrounds_paths[background_idx])
                     # Places the folder button onto the screen
                     self.place_file_button(i)
 
             # If this line is reached than there are no more folders or backgrounds to add to the screen
-            # Destroys the leftover frame from before the refresh
             else:
+               # Destroys the leftover frame from before the refresh
                background_frames[i].destroy()
+               # Removes the old frame from the buttons array
+               self.buttons.pop(i)
 
 
-        ## I have not yet accounted for if there are new folders and backgrounds
-        ## TODO: Figure out how to add those files to the screen
+        # Total new files added to the directory
+        total_new_files = len(new_folder_paths) + len(new_backgrounds_paths)
+        
+        # Adds any new files not added to the screen to the screen
+        for i in range(len(background_frames), total_new_files):
+            # If there are folders buttons that haven't been added, add them to the screen
+            if i < len(new_folder_paths):
+                # Creates a new folder button and stores it in an array
+                self.buttons.append(self.create_folder_button(new_folder_paths[i]))
+                # Places the folder button onto the screen
+                self.place_file_button(i)
+            
+            # If there are new background buttons that haven't been added, add them to the screen
+            else:
+                background_idx = abs(i - len(new_folder_paths))
+                # Creates a new background button and stores it in an array
+                self.buttons.append(self.create_background_button(new_backgrounds_paths[background_idx]))
+                # Places the folder button onto the screen
+                self.place_file_button(i)
         

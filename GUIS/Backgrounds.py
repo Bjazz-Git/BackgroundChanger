@@ -90,11 +90,17 @@ class All_Backgrounds(ttkb.Frame):
     def refresh_backgrounds(self):
         # Gets the current frame being shown on the scrollable frame
         for background_frame in self.scrollable_frame.winfo_children():
-            print("Frame: ")
-            print(background_frame)
+            try:
+                # Updates the files to represent the current files in the frame's directory
+                background_frame.refresh_backgrounds()
+                
+            # If the folder no longer exists, delete the frame
+            except FileNotFoundError:
+                background_frame.destroy()
 
-        self.controller.refresh_screen(self, self.helper)
-        self.controller.show_frame("All_Backgrounds")
+
+        # self.controller.refresh_screen(self, self.helper)
+        # self.controller.show_frame("All_Backgrounds")
 
        
 
