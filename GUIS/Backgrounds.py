@@ -29,8 +29,6 @@ class All_Backgrounds(ttkb.Frame):
         # Refresh Button Frame
         self.refresh_button_frame = ttkb.Frame(self.button_tool_bar)
         # Create Refresh Button
-        # self.refresh_img = Image.open("Images/Refresh_Icon.webp").resize((10, 10))
-        # self.refresh_img = ImageTk.PhotoImage(self.refresh_img)
         self.refresh_button = ttkb.Button(self.refresh_button_frame, text="⟳", command= lambda: self.refresh_backgrounds())
 
         # Scrollable Frame
@@ -90,6 +88,11 @@ class All_Backgrounds(ttkb.Frame):
     
     # Refreshes the backgrounds frame to show any new backgrounds
     def refresh_backgrounds(self):
+        # Gets the current frame being shown on the scrollable frame
+        for background_frame in self.scrollable_frame.winfo_children():
+            print("Frame: ")
+            print(background_frame)
+
         self.controller.refresh_screen(self, self.helper)
         self.controller.show_frame("All_Backgrounds")
 
