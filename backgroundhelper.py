@@ -119,16 +119,23 @@ class Background_Helper():
 
     # Gets the folders within the background directory
     def get_folders(self):
-        return self.background_changer.get_folders()
+        folders = self.background_changer.get_folders()
+        folders_copy = folders.copy()
+
+        # Checks if the folders have images in them, if they don't, exclude them from the list
+        for folder in folders:
+            if len(self.get_all_images(folder)) == 0:
+                folders_copy.remove(folder)
+
+        return folders_copy
     
 
-    # Get all images in the directory, including those in sub folders
-    def get_all_images(self):
+    # Get all images in the directory and it's sub folders
+    def get_all_images(self, directory=""):
         images = []
         folders = []
         
         # Get all files from the base directory to the last folder
-        directory = ""
         current_folder = 0
         while True:
             directory_files = self.get_files(directory=directory)
@@ -151,4 +158,3 @@ class Background_Helper():
     # Gets the files and images at the base directory or a specified one
     def get_files(self, directory=""):
         return self.background_changer.get_valid_files(directory=directory)
-

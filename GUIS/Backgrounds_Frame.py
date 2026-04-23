@@ -40,6 +40,7 @@ class Backgrounds_frame(ttkb.Frame):
 
         # Create a folder object for all folders in the user's background directory and store them into an array
         for i in range(len(self.folder_paths)):
+            # Trys to create a folder button, and if one was created adds it to the buttons list
             self.buttons.append(self.create_folder_button(self.folder_paths[i]))
 
         # Creates Background buttons, that when clicked, change the user's background to the clicked background
@@ -130,6 +131,7 @@ class Backgrounds_frame(ttkb.Frame):
 
     ## Started implementation of a way to refresh individual frames without deleting all frames
     # Refreshes the backgrounds in the current frame
+    ## Note: get_label is called additional times to check if files are similar, this might cause performance issues and is a flawed way of checking if files are the same
     def refresh_backgrounds(self):
         # Gets the paths to all folders within the backgrounds directory
         new_folder_paths = self.helper.get_folders()
@@ -140,23 +142,15 @@ class Backgrounds_frame(ttkb.Frame):
 
         # Go through all of the folders and backgrounds in the frame 
         for i in range(len(background_frames)):
+            current_file_name = background_frames[i].winfo_children()[0].cget("text")
             # Idx used to get the current background frame
             background_idx = abs(i - len(new_folder_paths))
 
             # Check if there are any new folders to add to the frame
             if i < len(new_folder_paths):
-                # If there are more new folders than old folders, replace the current background with the new folder
-                if (i >= len(self.folder_paths)):
-                    # Destroys the previous folder button
-                    background_frames[i].destroy()
-                    # Creates a new folder button and stores it in an array
-                    self.buttons[i] = self.create_folder_button(new_folder_paths[i])
-                    # Places the folder button onto the screen
-                    self.place_file_button(i)
-
-                ## TODO: Remove this redundancy
                 # If the new folder is not equal to the folder on the frame, replace the previous folder with the new one
-                elif (new_folder_paths[i] != self.folder_paths[i]):
+                if (self.get_label(new_folder_paths[i]) != current_file_name):
+                    # print(f"{new_folder_paths[i]} != {current_file_name}")
                     # Destroys the previous folder button
                     background_frames[i].destroy()
                     # Creates a new folder button and stores it in an array
@@ -166,19 +160,9 @@ class Backgrounds_frame(ttkb.Frame):
 
             # Check if there are any new backgrounds to add to the frame
             elif background_idx < len(new_backgrounds_paths):
-                # If there are old folders that still have not be replaced, replace them with the current background
-                if i < len(self.folder_paths):
-                    # Destroys the previous background button
-                    background_frames[i].destroy()
-                    # Creates a new background button and stores it in an array
-                    self.buttons[i] = self.create_background_button(new_backgrounds_paths[background_idx])
-                    # Places the folder button onto the screen
-                    self.place_file_button(i)
-
-                ## TODO: Remove this redundancy
                 # If the new background is not equal to the background on the frame, replace the current background with the new one
-                elif (new_backgrounds_paths[background_idx] != self.backgrounds_paths[background_idx]):
-                    #print(f"Index: {i} and the bg_idx: {background_idx} and the length of backgrounds {len(new_backgrounds_paths)}")
+                if (self.get_label(new_backgrounds_paths[background_idx]) != current_file_name):
+                    # print(f"{new_backgrounds_paths[background_idx]} != {current_file_name}")
                     # Destroys the previous background button
                     background_frames[i].destroy()
                     # Creates a new background button and stores it in an array
@@ -188,6 +172,7 @@ class Backgrounds_frame(ttkb.Frame):
 
             # If this line is reached than there are no more folders or backgrounds to add to the screen
             else:
+            #    print("Leftover frame")
                # Destroys the leftover frame from before the refresh
                background_frames[i].destroy()
                # Removes the old frame from the buttons array
@@ -199,6 +184,7 @@ class Backgrounds_frame(ttkb.Frame):
         
         # Adds any new files not added to the screen to the screen
         for i in range(len(background_frames), total_new_files):
+            # print("Entered")
             # If there are folders buttons that haven't been added, add them to the screen
             if i < len(new_folder_paths):
                 # Creates a new folder button and stores it in an array

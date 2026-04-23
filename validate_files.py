@@ -37,8 +37,41 @@ def valid_files(folder, files):
                 print(file)
                 directory_files["folders"].append(file_directory)
         
-        # Returns all valid files (images and folders)
-        return directory_files
+    # Returns all valid files (images and folders)
+    return directory_files
+
+
+# Returns a list of all files that are backgrounds
+def valid_backgrounds(folder, files):
+    directory_files = []
+
+    if files:
+        for file in files:
+            # Gets the full path to the image
+            file_directory = os.path.join(folder, file)
+
+            # If file is an image, add it to the images dictionary
+            if is_image(file):
+                directory_files.append(file_directory)
+    
+    return directory_files
+
+
+# Returns a list of all files that are folders
+def valid_folders(folder, files):
+    directory_files = []
+    
+    if files:
+        for file in files:
+            # Gets the full path to the image
+            file_directory = os.path.join(folder, file)
+
+            # If the file is a folder, add it to the folders directory
+            if is_folder(file_directory):
+                print(file)
+                directory_files.append(file_directory)
+            
+    return directory_files
 
 
 # Checks if a file can be used as a background image

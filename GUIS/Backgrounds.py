@@ -93,14 +93,20 @@ class All_Backgrounds(ttkb.Frame):
             try:
                 # Updates the files to represent the current files in the frame's directory
                 background_frame.refresh_backgrounds()
-                
+
             # If the folder no longer exists, delete the frame
             except FileNotFoundError:
                 background_frame.destroy()
-
-
-        # self.controller.refresh_screen(self, self.helper)
-        # self.controller.show_frame("All_Backgrounds")
+        
+        # If the folder the user was in no longer exists, return the user to main backgrounds directory
+        # TODO: If the main background directory was deleted, the user should be told to add a new directory
+        try:
+            if len(self.current_location.winfo_children()) > 0:
+                pass
+        
+        except:
+            self.open_folder(self.backgrounds_frame)
+       
 
        
 

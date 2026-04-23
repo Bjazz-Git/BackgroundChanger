@@ -6,8 +6,8 @@ from GUIS.RightSection import MainMenuRight
 from GUIS.Backgrounds import All_Backgrounds
 from backgroundhelper import Background_Helper
 
-### TODO:Improve the refresh Button, to improve performance (prevent get_valid_files from being called over and over again)
-### The location of files should be stored on file and this refresh button should be in the tool bar
+### TODO: If the main directory is empty the user should be shown a screen indicating they need to add a directory
+### TODO: If a folder doesn't have any images in it that folder should not be displayed to the user
 ### TODO: Add a feature that makes it so random images are choosen automatically at certain times, days, weeks, months
 ### TODO: Add the ability for users to ignore backgrounds (backgrounds that won't show up in the selection and random pool)
 
