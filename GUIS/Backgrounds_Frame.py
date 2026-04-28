@@ -1,6 +1,6 @@
 import ttkbootstrap as ttkb
 from PIL import Image, ImageTk
-from backgroundhelper import Background_Helper
+from Functionality.backgroundhelper import Background_Helper
 
 class Backgrounds_frame(ttkb.Frame):
     def __init__(self, parent, controller, helper, main_frame, parent_frame = None, frame_num = 0):

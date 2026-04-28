@@ -5,50 +5,39 @@ class Buttons(ttkb.Frame):
             self.parent = parent
             self.controller = controller
             self.helper = helper
-            options = self.get_options()
-            options_text = list(options.keys())
+            # options = self.get_options()
+            # options_text = list(options.keys())
             option_buttons = []
-
-            # Button Formatting
-            number_of_buttons = 3
-            padding = 10
-            button_width = int(self.parent.width / number_of_buttons) - padding * 2
-            button_height = int(self.parent.height / number_of_buttons) - padding * 2
             
             # Initialize Button Frame
             super().__init__(parent)
-
-            # Buttons
-            # Create the option buttons and add them into the option_buttons array
-            for option_text in options_text:
-                # A frame to contain an option button
-                option_frame = ttkb.Frame(self, width=button_width, height=button_height, padding=padding)
-                option_frame.pack_propagate(False)
-                ttkb.Button(
-                    option_frame, text=option_text, 
-                    command=lambda option=options[option_text]: option()
-                ).pack(side="top", fill="both", expand=True)
-
-                option_buttons.append(
-                    option_frame
-                )
+            # Change background folder button
+            option_buttons.append(self.create_change_bg_folder_button())
+            # Change background button
+            option_buttons.append(self.create_change_bg_button())
+            # Change background to random background button
+            option_buttons.append(self.create_set_random_bg_button())
             
             # Add the option buttons to the screen
             for i in range(len(option_buttons)):
                 option_buttons[i].pack(side = "top", fill= "both", expand = True)
-                 
-        
-        def get_options(self):
-            options = {"Set Background Folder" :self.change_background_folder,
-                    "Set Background": self.change_background, 
-                    "Set Random Background": self.set_random_background}
             
-            return options
+            self.format_buttons()
+                 
 
+        # Creates a button that allows the user to change their background
+        def create_change_bg_button(self):
+            return self.create_button("Set Background", self.change_background)
+        
         
         # Changes the frame to show a collection of scrollable images (all backgrounds name frame)
         def change_background(self):
             self.controller.show_frame("All_Backgrounds", "MainMenuLeft")
+
+
+        # Creates a button that allows the user to change their background folder
+        def create_change_bg_folder_button(self):
+            return self.create_button("Set Background Folder", self.change_background_folder)
         
 
         def change_background_folder(self):
@@ -56,6 +45,37 @@ class Buttons(ttkb.Frame):
             self.controller.refresh_screen(self.controller.top_bar, helper=self.helper)
             self.controller.refresh_screen(self.controller.left_frames["All_Backgrounds"], helper=self.helper)
 
+
+        # Creates a button that allows the user to change their background to a random background
+        def create_set_random_bg_button(self):
+            return self.create_button("Set Random Background", self.set_random_background)
+
+
         def set_random_background(self):
             self.helper.choose_random_background()
             self.controller.refresh_screen(self.controller.right_bar, helper=self.helper)
+
+
+        # Creates a button with the specified name and command attached to a frame
+        def create_button(self, buttonName, buttonCommand):
+            button_frame = ttkb.Frame(self)
+            button_frame.pack_propagate(False)
+
+            button = ttkb.Button(button_frame, text=buttonName, command=lambda : buttonCommand())
+            button.pack(side="top", fill="both", expand=True)
+            return button_frame
+
+
+        # Formats the buttons within the frame
+        def format_buttons(self):
+            buttons = self.winfo_children()
+            number_of_buttons = len(buttons)
+
+            for button in buttons:
+                padding = 10
+                button_width = int(self.parent.width / number_of_buttons) - padding * 2
+                button_height = int(self.parent.height / number_of_buttons) - padding * 2
+
+                button.config(width=button_width)
+                button.config(height=button_height)
+                button.config(padding=padding)

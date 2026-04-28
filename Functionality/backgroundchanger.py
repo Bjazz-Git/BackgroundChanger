@@ -1,11 +1,11 @@
 import ctypes
 import os
-import appexceptions
-import access_c
-from validate_files import valid_files
-from validate_files import valid_folder
-from validate_files import valid_backgrounds
-from validate_files import valid_folders
+import Exceptions.appexceptions as appexceptions
+import Functionality.access_c as access_c
+from Functionality.validate_files import valid_files
+from Functionality.validate_files import valid_folder
+from Functionality.validate_files import valid_backgrounds
+from Functionality.validate_files import valid_folders
 import copy
 
 
@@ -42,13 +42,16 @@ class Background_Changer():
     # Returns the backgrounds folder, if there is one
     def get_folder(self): 
         # If no directory was provided use the default directory
-        if self.directory == "":
-            with open("background_folder_directory.txt", "r") as f:
-                    return f.read()
-            
-        # If a directory was provided then use that one isntead of the base directory
-        else:
-            return self.directory
+        try:
+            if self.directory == "":
+                with open("background_folder_directory.txt", "r") as f:
+                        return f.read()
+                
+            # If a directory was provided then use that one isntead of the base directory
+            else:
+                return self.directory
+        except (FileNotFoundError):
+            return ""
 
 
     # Returns a list of files in the background folder, if there are any

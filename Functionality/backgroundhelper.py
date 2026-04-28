@@ -1,6 +1,6 @@
-from backgroundchanger import Background_Changer
+from Functionality.backgroundchanger import Background_Changer
 import random
-import appexceptions
+import Exceptions.appexceptions as appexceptions
 import tkinter
 from tkinter import Tk
 from tkinter import filedialog
