@@ -51,7 +51,7 @@ class Background_Changer():
             else:
                 return self.directory
         except (FileNotFoundError):
-            return ""
+            return None
 
 
     # Returns a list of files in the background folder, if there are any

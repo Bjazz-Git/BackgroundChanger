@@ -22,4 +22,7 @@ class MainMenuLeft(ttkb.Frame):
         super().__init__(self.parent, height=self.height, width=self.width)
 
         buttons_frame = Buttons(self, self.controller, self.helper)
+        buttons_frame.create_change_bg_folder_button()
+        buttons_frame.create_change_bg_button()
+        buttons_frame.create_set_random_bg_button()
         buttons_frame.pack(side="top", fill="both", expand=True)

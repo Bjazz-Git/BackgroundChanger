@@ -7,27 +7,19 @@ class Buttons(ttkb.Frame):
             self.helper = helper
             # options = self.get_options()
             # options_text = list(options.keys())
-            option_buttons = []
+            self.option_buttons = []
             
             # Initialize Button Frame
             super().__init__(parent)
-            # Change background folder button
-            option_buttons.append(self.create_change_bg_folder_button())
-            # Change background button
-            option_buttons.append(self.create_change_bg_button())
-            # Change background to random background button
-            option_buttons.append(self.create_set_random_bg_button())
-            
-            # Add the option buttons to the screen
-            for i in range(len(option_buttons)):
-                option_buttons[i].pack(side = "top", fill= "both", expand = True)
-            
-            self.format_buttons()
                  
 
         # Creates a button that allows the user to change their background
         def create_change_bg_button(self):
-            return self.create_button("Set Background", self.change_background)
+            bg_button = self.create_button("Set Background", self.change_background)
+            self.format_buttons()
+            self.option_buttons.append(bg_button)
+            self.option_buttons[len(self.option_buttons) - 1].pack(side = "top", fill= "both", expand = True)
+            return bg_button
         
         
         # Changes the frame to show a collection of scrollable images (all backgrounds name frame)
@@ -37,18 +29,34 @@ class Buttons(ttkb.Frame):
 
         # Creates a button that allows the user to change their background folder
         def create_change_bg_folder_button(self):
-            return self.create_button("Set Background Folder", self.change_background_folder)
+            folder_button = self.create_button("Set Background Folder", self.change_background_folder)
+            self.format_buttons()
+            self.option_buttons.append(folder_button)
+            self.option_buttons[len(self.option_buttons) - 1].pack(side = "top", fill= "both", expand = True)
+            return folder_button
         
-
+        # Allows the user to change their backgrounds folder
         def change_background_folder(self):
             self.helper.set_background_folder()
-            self.controller.refresh_screen(self.controller.top_bar, helper=self.helper)
-            self.controller.refresh_screen(self.controller.left_frames["All_Backgrounds"], helper=self.helper)
+            print(type(self.parent).__name__)
+
+            # If Missing Directory Frame, change the frame to the main menu frame
+            if type(self.parent).__name__ == "Missing_Directory_Frame":
+                pass
+
+            # If Main menu frame, update screen to show directory change
+            elif type(self.parent).__name__ == "MainMenuLeft":
+                self.controller.refresh_screen(self.controller.top_bar, helper=self.helper)
+                self.controller.refresh_screen(self.controller.left_frames["All_Backgrounds"], helper=self.helper)
 
 
         # Creates a button that allows the user to change their background to a random background
         def create_set_random_bg_button(self):
-            return self.create_button("Set Random Background", self.set_random_background)
+            random_bg_button = self.create_button("Set Random Background", self.set_random_background)
+            self.format_buttons()
+            self.option_buttons.append(random_bg_button)
+            self.option_buttons[len(self.option_buttons) - 1].pack(side = "top", fill= "both", expand = True)
+            return random_bg_button
 
 
         def set_random_background(self):

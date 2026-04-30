@@ -172,7 +172,6 @@ class Backgrounds_frame(ttkb.Frame):
 
             # If this line is reached than there are no more folders or backgrounds to add to the screen
             else:
-            #    print("Leftover frame")
                # Destroys the leftover frame from before the refresh
                background_frames[i].destroy()
                # Removes the old frame from the buttons array
@@ -184,7 +183,6 @@ class Backgrounds_frame(ttkb.Frame):
         
         # Adds any new files not added to the screen to the screen
         for i in range(len(background_frames), total_new_files):
-            # print("Entered")
             # If there are folders buttons that haven't been added, add them to the screen
             if i < len(new_folder_paths):
                 # Creates a new folder button and stores it in an array
