@@ -20,7 +20,7 @@ class Main_Frame(ttkb.Frame):
 
         # Left Frame
         self.left_frames = {}
-        self.left_frame = LeftFrame(self.window, controller=self, width=self.width, height=self.height)
+        self.left_frame = LeftFrame(self, controller=self, width=self.width, height=self.height)
         self.left_frame.pack(side="left", fill="both", expand=True)
         #Creates the left screens and adds them to a dictionary
         self.createButtonsFrame(self.background_helper)
@@ -35,7 +35,7 @@ class Main_Frame(ttkb.Frame):
 
     # Creates the top frame that displays the user's current background directory
     def createDirectoryFrame(self, background_helper):
-        top_bar = MainMenuTop(self.window, controller=self, helper = background_helper)
+        top_bar = MainMenuTop(self, controller=self, helper = background_helper)
         top_bar.pack(side="top", fill="both")
         return top_bar
 
@@ -56,7 +56,7 @@ class Main_Frame(ttkb.Frame):
 
     # Creates the screen/frame that displays the user's current background
     def createCurrentBackgroundFrame(self, background_helper):
-        right_bar = MainMenuRight(self.window, helper = background_helper, width=self.width, height=self.height)
+        right_bar = MainMenuRight(self, helper = background_helper, width=self.width, height=self.height)
         right_bar.pack(side="right", fill="both")
         return right_bar
     

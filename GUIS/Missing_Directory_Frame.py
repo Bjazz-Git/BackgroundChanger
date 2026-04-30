@@ -14,5 +14,8 @@ class Missing_Directory_Frame(ttkb.Frame):
         self.change_directory_button = Buttons(self, self.controller, self.helper)
         self.change_directory_button.create_change_bg_folder_button()
         self.change_directory_button.pack(side="top", fill="both", expand=True)
+    
+    def change_screen(self, new_frame_name, old_frame):
+        self.controller.change_screen(new_frame_name, old_frame)
 
 

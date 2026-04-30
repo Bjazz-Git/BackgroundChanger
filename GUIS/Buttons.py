@@ -38,14 +38,16 @@ class Buttons(ttkb.Frame):
         # Allows the user to change their backgrounds folder
         def change_background_folder(self):
             self.helper.set_background_folder()
-            print(type(self.parent).__name__)
+            frame_name = type(self.parent).__name__
 
             # If Missing Directory Frame, change the frame to the main menu frame
-            if type(self.parent).__name__ == "Missing_Directory_Frame":
-                pass
+            if frame_name == "Missing_Directory_Frame":
+                if self.helper.get_background_folder() is not None:
+                    self.controller.change_screen("Main_Frame", self.parent)
+
 
             # If Main menu frame, update screen to show directory change
-            elif type(self.parent).__name__ == "MainMenuLeft":
+            elif frame_name == "MainMenuLeft":
                 self.controller.refresh_screen(self.controller.top_bar, helper=self.helper)
                 self.controller.refresh_screen(self.controller.left_frames["All_Backgrounds"], helper=self.helper)
 

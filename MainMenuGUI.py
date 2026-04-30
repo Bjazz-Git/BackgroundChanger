@@ -1,9 +1,4 @@
 import ttkbootstrap as ttkb
-from GUIS.TopSection import MainMenuTop
-from GUIS.LeftSection import LeftFrame
-from GUIS.LeftSection import MainMenuLeft
-from GUIS.RightSection import MainMenuRight
-from GUIS.Backgrounds import All_Backgrounds
 from GUIS.Missing_Directory_Frame import Missing_Directory_Frame
 from GUIS.Main_Frame import Main_Frame
 from Functionality.backgroundhelper import Background_Helper
@@ -37,16 +32,17 @@ class MainMenuGUI:
 
         # If a background directory was provided then display the main frames
         if self.background_helper.get_background_folder() is not None:
-            self.get_main_frame()
+            self.change_screen(Main_Frame.__name__)
 
         # Display a frame asking the user to provide a background directory
         else:
-            self.get_empty_frame()
+            self.change_screen(Missing_Directory_Frame.__name__)
 
     
     # This is the frame that will be displayed to the screen if the user has provided a backgrounds directory
     def get_main_frame(self):
-        Main_Frame(window=self.window, parent=self, helper=self.background_helper)
+        main_frame = Main_Frame(window=self.window, parent=self, helper=self.background_helper)
+        main_frame.pack(side="top", fill="both", expand=True)
 
     
     # This is the frame that will be displayed to the screen if the user has not provided a backgrounds directory
@@ -54,12 +50,32 @@ class MainMenuGUI:
         missing_directory_frame = Missing_Directory_Frame(parent=self.window, controller=self, helper=self.background_helper, width=self.width, height=self.height)
         missing_directory_frame.pack(side="top", fill="both")
 
+    
+    def change_screen(self, new_screen, old_screen=None):
+        if old_screen is not None:
+            old_screen.destroy()
+
+        if (new_screen == Main_Frame.__name__):
+            self.get_main_frame()
+
+        elif(new_screen == Missing_Directory_Frame.__name__):
+            self.get_empty_frame()
+
+        self.show_children()
+
 
     # Places the applications window in the center of the screen
     def center_window(self):
         x = (self.window.winfo_screenwidth() - self.width) / 2
         y = (self.window.winfo_screenheight() - self.height) / 2
         self.window.geometry(f"{self.width}x{self.height}+{int(x)}+{int(y)}")
+
+    
+    def show_children(self):
+        children = self.window.winfo_children()
+
+        for i in range(len(children)):
+            print(children[i])
 
     
 if __name__ == "__main__":
