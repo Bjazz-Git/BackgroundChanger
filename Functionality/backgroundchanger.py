@@ -1,9 +1,11 @@
 import ctypes
 import os
-import appexceptions
-import access_c
-from validate_files import valid_files
-from validate_files import valid_folder
+import Exceptions.appexceptions as appexceptions
+import Functionality.access_c as access_c
+from Functionality.validate_files import valid_files
+from Functionality.validate_files import valid_folder
+from Functionality.validate_files import valid_backgrounds
+from Functionality.validate_files import valid_folders
 import copy
 
 
@@ -40,13 +42,16 @@ class Background_Changer():
     # Returns the backgrounds folder, if there is one
     def get_folder(self): 
         # If no directory was provided use the default directory
-        if self.directory == "":
-            with open("background_folder_directory.txt", "r") as f:
-                    return f.read()
-            
-        # If a directory was provided then use that one isntead of the base directory
-        else:
-            return self.directory
+        try:
+            if self.directory == "":
+                with open("background_folder_directory.txt", "r") as f:
+                        return f.read()
+                
+            # If a directory was provided then use that one isntead of the base directory
+            else:
+                return self.directory
+        except (FileNotFoundError):
+            return None
 
 
     # Returns a list of files in the background folder, if there are any
@@ -70,12 +75,21 @@ class Background_Changer():
 
     # Gets the images in the background folder directory
     def get_images(self, directory=""):
-        return self.get_valid_files(directory)["images"]
+        # If no directory was provided use the base background directory
+        if directory == "":
+            directory = self.get_folder()
+
+        return valid_backgrounds(directory, self.files_in_folder(directory))
 
 
     # Gets the folders in the background folder directory
     def get_folders(self, directory=""):
-        return self.get_valid_files(directory)["folders"]
+        #If no directory was provided use the base background directory
+        if directory == "":
+            directory = self.get_folder()
+
+        return valid_folders(directory, self.files_in_folder(directory))
+
 
     # Gets all image names in the backgrounds folder
     def get_image_names(self):

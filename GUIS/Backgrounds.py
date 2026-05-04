@@ -18,10 +18,18 @@ class All_Backgrounds(ttkb.Frame):
         super().__init__(self.parent, width=self.width, height=self.height)
         self.pack_propagate(False)
 
+        # Frame that contains all of the buttons
+        self.button_tool_bar = ttkb.Frame(self)
+
         # Back Button Frame
-        self.back_button_frame = ttkb.Frame(self)
+        self.back_button_frame = ttkb.Frame(self.button_tool_bar)
         # Back Button
         self.back_button = ttkb.Button(self.back_button_frame, text="Back", command= lambda: self.back())
+
+        # Refresh Button Frame
+        self.refresh_button_frame = ttkb.Frame(self.button_tool_bar)
+        # Create Refresh Button
+        self.refresh_button = ttkb.Button(self.refresh_button_frame, text="⟳", command= lambda: self.refresh_backgrounds())
 
         # Scrollable Frame
         self.scrollable_frame = customtkinter.CTkScrollableFrame(
@@ -38,8 +46,11 @@ class All_Backgrounds(ttkb.Frame):
         self.current_location = self.backgrounds_frame 
 
         # Position frames
-        self.back_button_frame.pack(side="top", fill="both", pady=5)
+        self.button_tool_bar.pack(side="top", fill="both", pady=5)
+        self.back_button_frame.grid(row=0, column=0, padx=5)
         self.back_button.pack(side="left")
+        self.refresh_button_frame.grid(row=0, column=1, padx=5)
+        self.refresh_button.pack(side="left")
         self.scrollable_frame.pack(side="top", fill="both", expand=True, padx=0)
         self.backgrounds_frame.pack(side="top", fill="both", expand=True, padx=0)
 
@@ -73,6 +84,29 @@ class All_Backgrounds(ttkb.Frame):
     # Refreshes the directory location to be accurate to where the user is located
     def update_directory(self, frame):
         self.controller.refresh_screen(self.controller.top_bar, frame.helper)
+
+    
+    # Refreshes the backgrounds frame to show any new backgrounds
+    def refresh_backgrounds(self):
+        # Gets the current frame being shown on the scrollable frame
+        for background_frame in self.scrollable_frame.winfo_children():
+            try:
+                # Updates the files to represent the current files in the frame's directory
+                background_frame.refresh_backgrounds()
+
+            # If the folder no longer exists, delete the frame
+            except FileNotFoundError:
+                background_frame.destroy()
+        
+        # If the folder the user was in no longer exists, return the user to main backgrounds directory
+        # TODO: If the main background directory was deleted, the user should be told to add a new directory
+        try:
+            if len(self.current_location.winfo_children()) > 0:
+                pass
+        
+        except:
+            self.open_folder(self.backgrounds_frame)
+       
 
        
 

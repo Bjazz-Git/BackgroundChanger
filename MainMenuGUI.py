@@ -1,17 +1,16 @@
 import ttkbootstrap as ttkb
-from GUIS.TopSection import MainMenuTop
-from GUIS.LeftSection import LeftFrame
-from GUIS.LeftSection import MainMenuLeft
-from GUIS.RightSection import MainMenuRight
-from GUIS.Backgrounds import All_Backgrounds
-from backgroundhelper import Background_Helper
+from GUIS.Missing_Directory_Frame import Missing_Directory_Frame
+from GUIS.Main_Frame import Main_Frame
+from Functionality.backgroundhelper import Background_Helper
 
+### TODO: If the main directory is empty the user should be shown a screen indicating they need to add a directory
+### TODO: See what to do about the refresh method for the directory button change in Buttons class
+### TODO: Dealing with all background folders and images being deleted (redirect user to main menu)
+    ### Issues relates to Backgrounds refresh method.
 
-### TODO: Improve formatting of Screens
-### TODO: Create a refresh Button, to improve performance (prevent get_valid_files from being called over and over again)
-### The location of files should be stored on file and this refresh button should be in the tool bar
 ### TODO: Add a feature that makes it so random images are choosen automatically at certain times, days, weeks, months
 ### TODO: Add the ability for users to ignore backgrounds (backgrounds that won't show up in the selection and random pool)
+### TODO: self.width and self.height could possibly be improved to not require it as an argument
 
 
 class MainMenuGUI:
@@ -31,22 +30,39 @@ class MainMenuGUI:
 
         self.background_helper = Background_Helper()
 
-        # # Top Frame
-        self.top_bar = self.createDirectoryFrame(self.background_helper)
+        # If a background directory was provided then display the main frames
+        if self.background_helper.get_background_folder() is not None:
+            self.change_screen(Main_Frame.__name__)
 
-        # Left Frame
-        self.left_frames = {}
-        self.left_frame = LeftFrame(self.window, controller=self, width=self.width, height=self.height)
-        self.left_frame.pack(side="left", fill="both", expand=True)
-        #Creates the left screens and adds them to a dictionary
-        self.createButtonsFrame(self.background_helper)
-        self.createBackgroundsFrame(self.background_helper)
+        # Display a frame asking the user to provide a background directory
+        else:
+            self.change_screen(Missing_Directory_Frame.__name__)
 
-        # Show the MainMenuLeft Frame
-        self.show_frame(MainMenuLeft.__name__)
-        
-        # Right Frame
-        self.right_bar = self.createCurrentBackgroundFrame(self.background_helper)
+    
+    # This is the frame that will be displayed to the screen if the user has provided a backgrounds directory
+    def get_main_frame(self):
+        main_frame = Main_Frame(window=self.window, parent=self, helper=self.background_helper)
+        main_frame.pack(side="top", fill="both", expand=True)
+
+    
+    # This is the frame that will be displayed to the screen if the user has not provided a backgrounds directory
+    def get_empty_frame(self):
+        missing_directory_frame = Missing_Directory_Frame(parent=self.window, controller=self, helper=self.background_helper, width=self.width, height=self.height)
+        missing_directory_frame.pack(side="top", fill="both")
+
+    
+    def change_screen(self, new_screen, old_screen=None):
+        if old_screen is not None:
+            old_screen.destroy()
+
+        if (new_screen == Main_Frame.__name__):
+            self.get_main_frame()
+
+        elif(new_screen == Missing_Directory_Frame.__name__):
+            self.get_empty_frame()
+
+        self.show_children()
+
 
     # Places the applications window in the center of the screen
     def center_window(self):
@@ -54,68 +70,12 @@ class MainMenuGUI:
         y = (self.window.winfo_screenheight() - self.height) / 2
         self.window.geometry(f"{self.width}x{self.height}+{int(x)}+{int(y)}")
 
-
-    # Creates the top frame that displays the user's current background directory
-    def createDirectoryFrame(self, background_helper):
-        top_bar = MainMenuTop(self.window, controller=self, helper = background_helper)
-        top_bar.pack(side="top", fill="both")
-        return top_bar
-
-
-    # Creates the screen/frame that displays buttons for the user to make choices with
-    def createButtonsFrame(self, background_helper):
-        page_name = MainMenuLeft.__name__
-        frame = MainMenuLeft(self.left_frame, controller=self, helper=background_helper, width=self.width, height=self.height)
-        self.left_frames[page_name] = frame
-
     
-    # Creates the screen/frame that displays clickable backgrounds for the user to select
-    def createBackgroundsFrame(self, background_helper):
-        page_name = All_Backgrounds.__name__
-        frame = All_Backgrounds(self.left_frame, controller=self, helper = background_helper, width=self.width, height=self.height)
-        self.left_frames[page_name] = frame
+    def show_children(self):
+        children = self.window.winfo_children()
 
-
-    # Creates the screen/frame that displays the user's current background
-    def createCurrentBackgroundFrame(self, background_helper):
-        right_bar = MainMenuRight(self.window, helper = background_helper, width=self.width, height=self.height)
-        right_bar.pack(side="right", fill="both")
-        return right_bar
-
-
-    # Displays a hidden frame to the screen  
-    def show_frame(self, page_name, previous_frame=""):
-        if previous_frame != "":
-            self.left_frames[previous_frame].pack_forget()
-
-        '''Show a frame for the given page name'''
-        frame = self.left_frames[page_name]
-        frame.pack(side="top", fill="both", expand="True")
-    
-
-    # Refreshes a given frame. This is done to ensure up to date information is shown
-    def refresh_screen(self, frame, helper):
-        # Gets the name of the frame
-        frame_name = type(frame).__name__
-
-        # Change the directory name in the directory frame
-        if (frame_name == MainMenuTop.__name__):
-            # Refreshes the directory name
-            self.top_bar.refresh_directory_name(helper)
-
-        # Replaces current background frame with a new one
-        elif (frame_name == MainMenuRight.__name__):
-            # Destroys the current frame
-            frame.destroy()
-            # Creates a new current background frame
-            self.right_bar = self.createCurrentBackgroundFrame(helper)
-        
-        # Replaces the backgrounds frame with a new one
-        elif (frame_name == All_Backgrounds.__name__):
-            # Destroys the current frame
-            frame.destroy()
-            # Creates a new backgrounds frame
-            self.createBackgroundsFrame(helper)
+        for i in range(len(children)):
+            print(children[i])
 
     
 if __name__ == "__main__":

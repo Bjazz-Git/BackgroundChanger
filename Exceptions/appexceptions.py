@@ -1,4 +1,4 @@
-import backgroundchanger
+import Functionality.backgroundchanger as backgroundchanger
 
 class AppException(Exception):
     def __init__(self, message, error):
