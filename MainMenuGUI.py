@@ -48,7 +48,7 @@ class MainMenuGUI:
     # This is the frame that will be displayed to the screen if the user has not provided a backgrounds directory
     def get_empty_frame(self):
         missing_directory_frame = Missing_Directory_Frame(parent=self.window, controller=self, helper=self.background_helper, width=self.width, height=self.height)
-        missing_directory_frame.pack(side="top", fill="both")
+        missing_directory_frame.place(relx= 0.5, rely=0.5, anchor="center")
 
     
     def change_screen(self, new_screen, old_screen=None):
