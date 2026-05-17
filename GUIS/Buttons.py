@@ -1,10 +1,12 @@
 import ttkbootstrap as ttkb
 
 class Buttons(ttkb.Frame):
-        def __init__(self, parent, controller, helper):
+        def __init__(self, parent, controller, helper, width=0, height=0):
             self.parent = parent
             self.controller = controller
             self.helper = helper
+            self.width = width
+            self.height = height
             # options = self.get_options()
             # options_text = list(options.keys())
             self.option_buttons = []
@@ -28,9 +30,9 @@ class Buttons(ttkb.Frame):
 
 
         # Creates a button that allows the user to change their background folder
-        def create_change_bg_folder_button(self):
+        def create_change_bg_folder_button(self, width=0, height=0):
             folder_button = self.create_button("Set Background Folder", self.change_background_folder)
-            self.format_buttons()
+            self.format_buttons(width=width, height=height)
             self.option_buttons.append(folder_button)
             self.option_buttons[len(self.option_buttons) - 1].pack(side = "top", fill= "both", expand = True)
             return folder_button
@@ -77,15 +79,22 @@ class Buttons(ttkb.Frame):
 
 
         # Formats the buttons within the frame
-        def format_buttons(self):
+        def format_buttons(self, width=0, height=0):
             buttons = self.winfo_children()
             number_of_buttons = len(buttons)
+            padding = 10
+            button_width = width
+            button_height = height
+
+            # Button width
+            if (width == 0):
+                button_width = int(self.width / number_of_buttons) - padding * 2
+
+            # Button height
+            if (height == 0):
+                button_height = int(self.height / number_of_buttons) - padding * 2
 
             for button in buttons:
-                padding = 10
-                button_width = int(self.parent.width / number_of_buttons) - padding * 2
-                button_height = int(self.parent.height / number_of_buttons) - padding * 2
-
                 button.config(width=button_width)
                 button.config(height=button_height)
                 button.config(padding=padding)
